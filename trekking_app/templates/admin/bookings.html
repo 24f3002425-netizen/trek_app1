@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}All Bookings{% endblock %}
+{% block content %}
+
+<h2 class="mb-3">All Bookings</h2>
+
+<div class="table-responsive">
+<table class="table table-bordered table-hover align-middle">
+    <thead class="table-warning">
+        <tr>
+            <th>Booking ID</th>
+            <th>User</th>
+            <th>Trek</th>
+            <th>Booking Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for b in bookings %}
+        <tr>
+            <td>{{ b['id'] }}</td>
+            <td>{{ b['user_name'] }}</td>
+            <td>{{ b['trek_name'] }}</td>
+            <td>{{ b['booking_date'] }}</td>
+            <td>
+                {% if b['status'] == 'Booked' %}
+                    <span class="badge bg-success">Booked</span>
+                {% elif b['status'] == 'Cancelled' %}
+                    <span class="badge bg-secondary">Cancelled</span>
+                {% else %}
+                    <span class="badge bg-dark">Completed</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="text-center text-muted">No bookings yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% endblock %}

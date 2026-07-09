@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+
+<h2 class="mb-4">Admin Dashboard</h2>
+
+<div class="row text-center">
+    <div class="col-md-3 mb-3">
+        <div class="card text-bg-success">
+            <div class="card-body">
+                <h2>{{ total_treks }}</h2>
+                <p class="mb-0">Total Treks</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-bg-primary">
+            <div class="card-body">
+                <h2>{{ total_users }}</h2>
+                <p class="mb-0">Total Users</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-bg-info">
+            <div class="card-body">
+                <h2>{{ total_staff }}</h2>
+                <p class="mb-0">Total Staff</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-bg-warning">
+            <div class="card-body">
+                <h2>{{ total_bookings }}</h2>
+                <p class="mb-0">Total Bookings</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if pending_staff > 0 %}
+<div class="alert alert-warning mt-3">
+    You have <strong>{{ pending_staff }}</strong> staff registration(s) waiting for approval.
+    <a href="{{ url_for('admin_staff') }}">Review now</a>
+</div>
+{% endif %}
+
+<div class="mt-4">
+    <a href="{{ url_for('admin_add_trek') }}" class="btn btn-success me-2">+ Add New Trek</a>
+    <a href="{{ url_for('admin_treks') }}" class="btn btn-outline-success me-2">Manage Treks</a>
+    <a href="{{ url_for('admin_staff') }}" class="btn btn-outline-primary me-2">Manage Staff</a>
+    <a href="{{ url_for('admin_users') }}" class="btn btn-outline-primary">Manage Users</a>
+</div>
+
+{% endblock %}

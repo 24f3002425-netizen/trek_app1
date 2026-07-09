@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Home - Trekking App{% endblock %}
+{% block content %}
+
+<div class="hero text-center">
+    <h1>Welcome to the Trekking Management App</h1>
+    <p class="lead">Plan, book and manage your trekking adventures easily.</p>
+    {% if not session.get('role') %}
+        <a href="{{ url_for('register') }}" class="btn btn-light btn-lg me-2">Get Started</a>
+        <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg">Login</a>
+    {% endif %}
+</div>
+
+<h3 class="mb-3">Currently Open Treks</h3>
+
+<div class="row">
+    {% for trek in treks %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ trek['name'] }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ trek['location'] }}</h6>
+                    <p class="card-text">
+                        Difficulty: <span class="badge bg-info text-dark">{{ trek['difficulty'] }}</span><br>
+                        Duration: {{ trek['duration'] }} days<br>
+                        Slots left: {{ trek['available_slots'] }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p class="text-muted">No open treks right now. Please check back later.</p>
+    {% endfor %}
+</div>
+
+{% if not session.get('role') %}
+<p class="text-center mt-3">
+    <a href="{{ url_for('register') }}">Register</a> as a Trekker to book a trek, or join as Trek Staff to guide one!
+</p>
+{% endif %}
+
+{% endblock %}

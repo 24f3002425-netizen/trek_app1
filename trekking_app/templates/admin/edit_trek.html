@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Edit Trek{% endblock %}
+{% block content %}
+
+<h2 class="mb-3">Edit Trek - {{ trek['name'] }}</h2>
+
+<div class="card">
+<div class="card-body">
+<form method="POST">
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Trek Name</label>
+            <input type="text" class="form-control" name="name" value="{{ trek['name'] }}" required>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Location</label>
+            <input type="text" class="form-control" name="location" value="{{ trek['location'] }}" required>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Difficulty</label>
+            <select class="form-select" name="difficulty" required>
+                {% for level in ['Easy', 'Moderate', 'Hard'] %}
+                <option value="{{ level }}" {% if trek['difficulty'] == level %}selected{% endif %}>{{ level }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Duration (days)</label>
+            <input type="number" min="1" class="form-control" name="duration" value="{{ trek['duration'] }}" required>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Total Slots</label>
+            <input type="number" min="1" class="form-control" name="total_slots" value="{{ trek['total_slots'] }}" required>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Start Date</label>
+            <input type="date" class="form-control" name="start_date" value="{{ trek['start_date'] }}" required>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label class="form-label">End Date</label>
+            <input type="date" class="form-control" name="end_date" value="{{ trek['end_date'] }}" required>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Assign Staff</label>
+        <select class="form-select" name="assigned_staff_id">
+            <option value="">-- Not Assigned --</option>
+            {% for staff in staff_list %}
+                <option value="{{ staff['id'] }}" {% if trek['assigned_staff_id'] == staff['id'] %}selected{% endif %}>
+                    {{ staff['name'] }} ({{ staff['email'] }})
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Status</label>
+        <select class="form-select" name="status" required>
+            {% for st in ['Pending', 'Open', 'Closed', 'Completed'] %}
+            <option value="{{ st }}" {% if trek['status'] == st %}selected{% endif %}>{{ st }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea class="form-control" name="description" rows="3">{{ trek['description'] }}</textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success">Save Changes</button>
+    <a href="{{ url_for('admin_treks') }}" class="btn btn-secondary">Cancel</a>
+</form>
+</div>
+</div>
+
+{% endblock %}

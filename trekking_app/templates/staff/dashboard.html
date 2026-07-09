@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Staff Dashboard{% endblock %}
+{% block content %}
+
+<h2 class="mb-3">My Assigned Treks</h2>
+
+<div class="row">
+    {% for trek in treks %}
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ trek['name'] }}</h5>
+                <p class="card-text mb-1"><strong>Location:</strong> {{ trek['location'] }}</p>
+                <p class="card-text mb-1"><strong>Difficulty:</strong> {{ trek['difficulty'] }}</p>
+                <p class="card-text mb-1"><strong>Slots:</strong> {{ trek['available_slots'] }} / {{ trek['total_slots'] }}</p>
+                <p class="card-text mb-1"><strong>Status:</strong> {{ trek['status'] }}</p>
+                <p class="card-text mb-2"><strong>Registered Users:</strong> {{ trek_counts[trek['id']] }}</p>
+
+                <a href="{{ url_for('staff_update_trek', trek_id=trek['id']) }}" class="btn btn-sm btn-success">Update Trek</a>
+                <a href="{{ url_for('staff_participants', trek_id=trek['id']) }}" class="btn btn-sm btn-outline-primary">View Participants</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <p class="text-muted">No treks have been assigned to you yet. Please check back later.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

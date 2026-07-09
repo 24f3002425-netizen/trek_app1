@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Manage Treks{% endblock %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Manage Treks</h2>
+    <a href="{{ url_for('admin_add_trek') }}" class="btn btn-success">+ Add Trek</a>
+</div>
+
+<div class="table-responsive">
+<table class="table table-bordered table-hover align-middle">
+    <thead class="table-success">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Difficulty</th>
+            <th>Slots (avail/total)</th>
+            <th>Assigned Staff</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for trek in treks %}
+        <tr>
+            <td>{{ trek['id'] }}</td>
+            <td>{{ trek['name'] }}</td>
+            <td>{{ trek['location'] }}</td>
+            <td>{{ trek['difficulty'] }}</td>
+            <td>{{ trek['available_slots'] }} / {{ trek['total_slots'] }}</td>
+            <td>{{ trek['staff_name'] or 'Not Assigned' }}</td>
+            <td>
+                {% if trek['status'] == 'Open' %}
+                    <span class="badge bg-success">Open</span>
+                {% elif trek['status'] == 'Closed' %}
+                    <span class="badge bg-secondary">Closed</span>
+                {% elif trek['status'] == 'Completed' %}
+                    <span class="badge bg-dark">Completed</span>
+                {% else %}
+                    <span class="badge bg-warning text-dark">Pending</span>
+                {% endif %}
+            </td>
+            <td>
+                <a href="{{ url_for('admin_edit_trek', trek_id=trek['id']) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                <a href="{{ url_for('admin_delete_trek', trek_id=trek['id']) }}" class="btn btn-sm btn-outline-danger"
+                   onclick="return confirm('Are you sure you want to delete this trek?');">Delete</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="8" class="text-center text-muted">No treks added yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Manage Users{% endblock %}
+{% block content %}
+
+<h2 class="mb-3">Manage Users (Trekkers)</h2>
+
+<div class="table-responsive">
+<table class="table table-bordered table-hover align-middle">
+    <thead class="table-primary">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Contact</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for u in users %}
+        <tr>
+            <td>{{ u['id'] }}</td>
+            <td>{{ u['name'] }}</td>
+            <td>{{ u['email'] }}</td>
+            <td>{{ u['contact'] }}</td>
+            <td>
+                {% if u['status'] == 'active' %}
+                    <span class="badge bg-success">Active</span>
+                {% else %}
+                    <span class="badge bg-danger">Blacklisted</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if u['status'] == 'active' %}
+                    <a href="{{ url_for('admin_blacklist_user', user_id=u['id']) }}" class="btn btn-sm btn-outline-danger">Blacklist</a>
+                {% else %}
+                    <a href="{{ url_for('admin_unblock_user', user_id=u['id']) }}" class="btn btn-sm btn-outline-success">Restore</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" class="text-center text-muted">No users registered yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% endblock %}

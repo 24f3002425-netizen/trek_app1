@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}My Dashboard{% endblock %}
+{% block content %}
+
+<h2 class="mb-3">Welcome, {{ session.get('name') }}!</h2>
+
+<p>There are currently <strong>{{ open_treks_count }}</strong> open treks available.
+   <a href="{{ url_for('user_treks') }}">Browse treks</a></p>
+
+<h4 class="mt-4 mb-3">My Bookings</h4>
+
+<div class="table-responsive">
+<table class="table table-bordered table-hover align-middle">
+    <thead class="table-success">
+        <tr>
+            <th>Trek</th>
+            <th>Location</th>
+            <th>Start Date</th>
+            <th>Booking Date</th>
+            <th>Booking Status</th>
+            <th>Trek Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for b in bookings %}
+        <tr>
+            <td>{{ b['trek_name'] }}</td>
+            <td>{{ b['location'] }}</td>
+            <td>{{ b['start_date'] }}</td>
+            <td>{{ b['booking_date'] }}</td>
+            <td>
+                {% if b['status'] == 'Booked' %}
+                    <span class="badge bg-success">Booked</span>
+                {% elif b['status'] == 'Cancelled' %}
+                    <span class="badge bg-secondary">Cancelled</span>
+                {% else %}
+                    <span class="badge bg-dark">Completed</span>
+                {% endif %}
+            </td>
+            <td>{{ b['trek_status'] }}</td>
+            <td>
+                {% if b['status'] == 'Booked' %}
+                <a href="{{ url_for('user_cancel_booking', booking_id=b['id']) }}" class="btn btn-sm btn-outline-danger"
+                   onclick="return confirm('Cancel this booking?');">Cancel</a>
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7" class="text-center text-muted">You haven't booked any treks yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% endblock %}

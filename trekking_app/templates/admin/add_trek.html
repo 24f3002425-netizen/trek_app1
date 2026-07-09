@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Add Trek{% endblock %}
+{% block content %}
+
+<h2 class="mb-3">Add New Trek</h2>
+
+<div class="card">
+<div class="card-body">
+<form method="POST">
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Trek Name</label>
+            <input type="text" class="form-control" name="name" required>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Location</label>
+            <input type="text" class="form-control" name="location" required>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Difficulty</label>
+            <select class="form-select" name="difficulty" required>
+                <option value="Easy">Easy</option>
+                <option value="Moderate">Moderate</option>
+                <option value="Hard">Hard</option>
+            </select>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Duration (days)</label>
+            <input type="number" min="1" class="form-control" name="duration" required>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Total Slots</label>
+            <input type="number" min="1" class="form-control" name="total_slots" required>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Start Date</label>
+            <input type="date" class="form-control" name="start_date" required>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label class="form-label">End Date</label>
+            <input type="date" class="form-control" name="end_date" required>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Assign Staff (optional)</label>
+        <select class="form-select" name="assigned_staff_id">
+            <option value="">-- Not Assigned Yet --</option>
+            {% for staff in staff_list %}
+                <option value="{{ staff['id'] }}">{{ staff['name'] }} ({{ staff['email'] }})</option>
+            {% endfor %}
+        </select>
+        <small class="text-muted">Only approved staff appear in this list.</small>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea class="form-control" name="description" rows="3"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success">Create Trek</button>
+    <a href="{{ url_for('admin_treks') }}" class="btn btn-secondary">Cancel</a>
+</form>
+</div>
+</div>
+
+{% endblock %}
